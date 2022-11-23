@@ -152,16 +152,20 @@ def pregunta_01():
     En esta función se realiza la carga de datos.
     """
     # Lea el archivo `german.csv` y asignelo al DataFrame `df`
-    df = ____
+    
+    df = pd.read_csv('german.csv')
 
     # Asigne la columna `default` a la variable `y`.
-    ____ = ____
+    
+    y = df['default']
 
     # Asigne una copia del dataframe `df` a la variable `X`.
-    ____ = ____.____()
+    
+    X = df.copy()
 
     # Remueva la columna `default` del DataFrame `X`.
-    ____.____(____)
+    
+    X = X.drop('default', axis = 1)
 
     # Retorne `X` y `y`
     return X, y
@@ -171,20 +175,19 @@ def pregunta_02():
     """
     Preparación del dataset.
     """
+    ##from sklearn.model_selection import train_test_split
 
-    # Importe train_test_split
-    from ____ import ____
 
     # Cargue los datos de ejemplo y asigne los resultados a `X` y `y`.
     X, y = pregunta_01()
 
     # Divida los datos de entrenamiento y prueba. La semilla del generador de números
     # aleatorios es 123. Use 100 patrones para la muestra de prueba.
-    (X_train, X_test, y_train, y_test,) = ____(
-        ____,
-        ____,
-        test_size=____,
-        random_state=____,
+    (X_train, X_test, y_train, y_test,) = train_test_split(
+        X,
+        y,
+        test_size = 100,
+        random_state = 321,
     )
 
     # Retorne `X_train`, `X_test`, `y_train` y `y_test`
@@ -196,36 +199,38 @@ def pregunta_03():
     Especificación y entrenamiento del modelo.
     """
 
-    # Importe ColumnTransformer
-    # Importe SVC
-    # Importe OneHotEncoder
-    # Importe Pipeline
-    from ____ import ____
+    from sklearn.compose import make_column_selector
+    ##from sklearn.pipeline import Pipeline
+    from sklearn.compose import ColumnTransformer
+    ##from sklearn.svm import SVC
+    from sklearn.compose import make_column_transformer
+    ##from sklearn.preprocessing import OneHotEncoder
 
     # Cargue las variables.
-    X_train, _, y_train, _ = pregunta_02()
+    X_train, X_test, y_train, y_test = pregunta_02()
 
     # Cree un objeto ColumnTransformer que aplique OneHotEncoder a las columnas
     # tipo texto. Use make_column_selector para seleccionar las columnas. Las
     # columnas numéricas no deben ser transformadas.
-    columnTransformer = make_column_transformer(
+    
+    ColTrans = make_column_transformer(
         (
-            ____(),
-            ____(____=____),
+            OneHotEncoder(),
+            make_column_selector(dtype_include = object),
         ),
-        remainder=____,
+        remainder = "passthrough",
     )
 
     # Cree un pipeline que contenga el columnTransformer y el modelo SVC.
-    pipeline = ____(
+    pipeline = Pipeline(
         steps=[
-            ("____", ____),
-            ("____", ____),
+            ("columnTransformer", columnTransformer),
+            ("SVC", SVC()),
         ],
     )
 
     # Entrene el pipeline con los datos de entrenamiento.
-    ____.____(____, ____)
+    pipeline.fit(X_train, y_train)
 
     # # Retorne el pipeline entrenado
     return pipeline
