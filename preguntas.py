@@ -184,7 +184,7 @@ def pregunta_02():
     # Divida los datos de entrenamiento y prueba. La semilla del generador de números
     # aleatorios es 123. Use 100 patrones para la muestra de prueba.
     (X_train, X_test, y_train, y_test,) = train_test_split(
-        X, y, test_size = 100, random_state = 321,)
+        X, y, test_size = 100, random_state = 123,)
   
 
     # Retorne `X_train`, `X_test`, `y_train` y `y_test`
@@ -221,7 +221,7 @@ def pregunta_03():
     # Cree un pipeline que contenga el columnTransformer y el modelo SVC.
     pipeline = Pipeline(
         steps=[
-            ("columnTransformer", columnTransformer),
+            ("columnTransformer", ColTrans),
             ("SVC", SVC()),
         ],
     )
