@@ -175,7 +175,7 @@ def pregunta_02():
     """
     Preparación del dataset.
     """
-    ##from sklearn.model_selection import train_test_split
+    from sklearn.model_selection import train_test_split
 
 
     # Cargue los datos de ejemplo y asigne los resultados a `X` y `y`.
@@ -197,11 +197,11 @@ def pregunta_03():
     """
 
     from sklearn.compose import make_column_selector
-    ##from sklearn.pipeline import Pipeline
+    from sklearn.pipeline import Pipeline
     from sklearn.compose import ColumnTransformer
-    ##from sklearn.svm import SVC
+    from sklearn.svm import SVC
     from sklearn.compose import make_column_transformer
-    ##from sklearn.preprocessing import OneHotEncoder
+    from sklearn.preprocessing import OneHotEncoder
 
     # Cargue las variables.
     X_train, X_test, y_train, y_test = pregunta_02()
@@ -227,6 +227,7 @@ def pregunta_03():
     )
 
     # Entrene el pipeline con los datos de entrenamiento.
+    
     pipeline.fit(X_train, y_train)
 
     # # Retorne el pipeline entrenado
