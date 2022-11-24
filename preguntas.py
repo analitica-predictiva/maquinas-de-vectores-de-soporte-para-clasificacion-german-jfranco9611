@@ -210,7 +210,7 @@ def pregunta_03():
     # tipo texto. Use make_column_selector para seleccionar las columnas. Las
     # columnas numéricas no deben ser transformadas.
     
-    ColTrans = make_column_transformer(
+    columnTransformer = make_column_transformer(
         (
             OneHotEncoder(),
             make_column_selector(dtype_include = object),
@@ -221,7 +221,7 @@ def pregunta_03():
     # Cree un pipeline que contenga el columnTransformer y el modelo SVC.
     pipeline = Pipeline(
         steps=[
-            ("columnTransformer", ColTrans),
+            ("columnTransformer", columnTransformer),
             ("SVC", SVC()),
         ],
     )
@@ -250,12 +250,11 @@ def pregunta_04():
     # Evalúe el pipeline con los datos de entrenamiento usando la matriz de confusion.
     cfm_train = confusion_matrix(
         y_true = y_train,
-        y_pred = pipeline.predict(X_train),
+        y_pred = pipeline.predict(X_train),   )
 
     cfm_test = confusion_matrix(
         y_true = y_test,
-        y_pred = pipeline.predict(X_test),
-    )
+        y_pred = pipeline.predict(X_test),    )
 
     # Retorne la matriz de confusion de entrenamiento y prueba
     return cfm_train, cfm_test
